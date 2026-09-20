@@ -112,6 +112,22 @@ the changed commands. An already-running instance can otherwise continue to
 invoke its previous direct ``cargo`` command, which reports that no manifest
 was found instead of running the wrapper.
 
+Local patches
+=============
+
+This fork carries a fix to the vendored ``jsonrpc-glib`` copy under
+``lsp/deps/jsonrpc-glib/jsonrpc-client.c``. ``is_jsonrpc_call()`` required a
+``params`` field to recognize an incoming request, but the JSON-RPC 2.0 spec
+makes ``params`` optional. A server-to-client request without ``params``
+(observed from ``rust-analyzer``) matched none of the message categories
+(notification/result/call/error-response) and was silently dropped instead
+of being dispatched or answered with a "method not found" error, logging::
+
+    LSP-WARNING **: Unhandled RPC from peer!
+
+The fix drops the ``params``-presence requirement from ``is_jsonrpc_call()``,
+matching how the notification path already tolerates a missing ``params``.
+
 Usage
 =====
 
