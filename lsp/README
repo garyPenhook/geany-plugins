@@ -100,6 +100,13 @@ user-level filetype build-menu override can additionally expose Cargo Check,
 Clippy, and Format. ``rustfmt`` provides formatting and Clippy provides
 additional linting; both are installed by the command above.
 
+For a workflow that starts with a standalone ``.rs`` file, the override can
+invoke a small Cargo wrapper before each Cargo command. The wrapper should
+first search parent directories for an existing ``Cargo.toml``. If none is
+found, it can safely create a minimal manifest in the source file's directory,
+including a ``[[bin]]`` entry pointing at that file. This lets the first Cargo
+action initialize the folder without replacing an existing Cargo project.
+
 Usage
 =====
 
