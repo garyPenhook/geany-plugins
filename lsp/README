@@ -70,6 +70,36 @@ configured from::
 
     Edit->Preferences->Keybindings->LSP Client
 
+Rust
+====
+
+The distributed LSP configuration contains a ``[Rust]`` section that starts
+``rust-analyzer``.  Install it with the Rust toolchain, for example::
+
+    rustup component add rust-analyzer rustfmt clippy
+
+For desktop launchers whose environment does not include Cargo's bin directory,
+set ``cmd`` to the absolute path to the executable (for example,
+``/home/user/.cargo/bin/rust-analyzer``) in the User configuration file.
+The same approach can be used for the ``rustc`` and ``cargo`` commands in
+Geany's Rust filetype build commands.
+
+For a typical Cargo project, enable project detection and the main Rust
+language features in the ``[Rust]`` section::
+
+    use_without_project=true
+    use_outside_project_dir=true
+    diagnostics_enable=true
+    hover_enable=true
+    signature_enable=true
+    document_symbols_enable=true
+    semantic_tokens_enable=true
+
+Geany's Rust filetype provides Cargo build, test, bench, and run commands. A
+user-level filetype build-menu override can additionally expose Cargo Check,
+Clippy, and Format. ``rustfmt`` provides formatting and Clippy provides
+additional linting; both are installed by the command above.
+
 Usage
 =====
 
